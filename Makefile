@@ -11,11 +11,12 @@ EXTENSION_FILES = content.js background.js style.css
 
 release: build
 	@echo "Creating Chrome release package..."
-	@zip -9 -r $(CHROME_ZIP) $(CHROME_DIR)/*
-	@echo "Created $(CHROME_ZIP) from $(CHROME_DIR)/"
-	
+	@cd $(CHROME_DIR) && zip -9 -r ../chrome-release.zip .
+	@echo "Created $(CHROME_ZIP)"
+
 	@echo "Creating Firefox release package..."
-	@zip -9 -r $(FIREFOX_ZIP) $(FIREFOX_DIR)/*
+	@cd $(FIREFOX_DIR) && zip -9 -r ../firefox-release.zip .
+	@echo "Created $(FIREFOX_ZIP)"
 	
 	# Verify zip files were created
 	@echo ""

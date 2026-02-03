@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
+const EXTENSION_ID = "@clickAt"
+
 const ASSETS_DIR = path.join(__dirname, 'assets')
 const SRC_DIR = path.join(__dirname, 'src');
 const DIST_DIR = path.join(__dirname, 'dist');
@@ -72,6 +74,14 @@ fs.writeFileSync(
 const firefoxManifest = JSON.parse(JSON.stringify(baseManifest));
 firefoxManifest.background = {
     "scripts": [BACKGROUND_SRC]
+};
+firefoxManifest.browser_specific_settings = {
+    gecko: {
+        id: EXTENSION_ID,
+        data_collection_permissions: {
+              required: ["none"],
+        }
+    }
 };
 
 fs.writeFileSync(
