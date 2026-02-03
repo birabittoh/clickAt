@@ -75,11 +75,11 @@ function showModal() {
         <div class="ct-mode-options">
           <label class="ct-mode-option">
             <input type="radio" name="click-mode" value="element" checked>
-            <span class="ct-mode-text">Web Element</span>
+            <span class="ct-mode-text">Web element</span>
           </label>
           <label class="ct-mode-option">
             <input type="radio" name="click-mode" value="coordinates">
-            <span class="ct-mode-text">Exact Coordinates</span>
+            <span class="ct-mode-text">Exact coordinates</span>
           </label>
         </div>
       </div>
