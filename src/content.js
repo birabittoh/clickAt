@@ -28,7 +28,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 // ========== MAIN UI ==========
 function toggleMainUI() {
-  const existingUI = document.getElementById("ct-main-ui");
+  const existingUI = document.getElementById("clickat-main-ui");
   if (existingUI) {
     existingUI.remove();
     return;
@@ -37,25 +37,25 @@ function toggleMainUI() {
 }
 
 function showMainUI() {
-  const existingUI = document.getElementById("ct-main-ui");
+  const existingUI = document.getElementById("clickat-main-ui");
   if (existingUI) existingUI.remove();
 
   const ui = document.createElement("div");
-  ui.id = "ct-main-ui";
+  ui.id = "clickat-main-ui";
   ui.innerHTML = `
-    <div class="ct-main-panel">
-      <div class="ct-main-header">
+    <div class="clickat-main-panel">
+      <div class="clickat-main-header">
         <h3>📍 clickAt</h3>
-        <button id="ct-main-close" class="ct-icon-btn">✕</button>
+        <button id="clickat-main-close" class="clickat-icon-btn">✕</button>
       </div>
       
-      <div class="ct-main-actions">
-        <button id="ct-add-click" class="ct-primary-btn">
+      <div class="clickat-main-actions">
+        <button id="clickat-add-click" class="clickat-primary-btn">
           Schedule new click
         </button>
       </div>
       
-      <div class="ct-scheduled-list" id="ct-scheduled-list">
+      <div class="clickat-scheduled-list" id="clickat-scheduled-list">
         ${renderScheduledClicks()}
       </div>
     </div>
@@ -64,16 +64,16 @@ function showMainUI() {
   document.body.appendChild(ui);
   
   // Event listeners
-  document.getElementById("ct-main-close").addEventListener("click", () => ui.remove());
-  document.getElementById("ct-add-click").addEventListener("click", () => {
+  document.getElementById("clickat-main-close").addEventListener("click", () => ui.remove());
+  document.getElementById("clickat-add-click").addEventListener("click", () => {
     ui.remove();
     startElementPicker();
   });
   
   // Add delete listeners
-  ui.querySelectorAll(".ct-delete-scheduled").forEach(btn => {
+  ui.querySelectorAll(".clickat-delete-scheduled").forEach(btn => {
     btn.addEventListener("click", (e) => {
-      const id = parseInt(e.target.closest(".ct-delete-scheduled").dataset.id);
+      const id = parseInt(e.target.closest(".clickat-delete-scheduled").dataset.id);
       deleteScheduledClick(id);
       updateScheduledList();
     });
@@ -83,8 +83,8 @@ function showMainUI() {
 function renderScheduledClicks() {
   if (scheduledClicks.length === 0) {
     return `
-      <div class="ct-empty-state">
-        <span class="ct-empty-icon">⏰</span>
+      <div class="clickat-empty-state">
+        <span class="clickat-empty-icon">⏰</span>
         <p>No scheduled clicks yet</p>
       </div>
     `;
@@ -104,36 +104,36 @@ function renderScheduledClicks() {
     const modeText = click.mode === "coordinates" ? "Coordinates" : "Element";
     
     return `
-      <div class="ct-scheduled-item">
-        <div class="ct-scheduled-info">
-          <div class="ct-scheduled-time">
-            <span class="ct-time-badge">${timeStr}</span>
-            <span class="ct-day-badge">${dayStr}</span>
+      <div class="clickat-scheduled-item">
+        <div class="clickat-scheduled-info">
+          <div class="clickat-scheduled-time">
+            <span class="clickat-time-badge">${timeStr}</span>
+            <span class="clickat-day-badge">${dayStr}</span>
           </div>
-          <div class="ct-scheduled-details">
-            <span class="ct-mode-badge">${modeIcon} ${modeText}</span>
+          <div class="clickat-scheduled-details">
+            <span class="clickat-mode-badge">${modeIcon} ${modeText}</span>
             ${click.mode === "element" ? 
-              `<span class="ct-element-tag">${click.element?.tagName?.toLowerCase() || 'N/A'}</span>` :
-              `<span class="ct-coords-text">X: ${click.x}, Y: ${click.y}</span>`
+              `<span class="clickat-element-tag">${click.element?.tagName?.toLowerCase() || 'N/A'}</span>` :
+              `<span class="clickat-coords-text">X: ${click.x}, Y: ${click.y}</span>`
             }
           </div>
-          <div class="ct-countdown">⏱️ ${minutesLeft} min left</div>
+          <div class="clickat-countdown">⏱️ ${minutesLeft} min left</div>
         </div>
-        <button class="ct-delete-scheduled" data-id="${click.id}">🗑️</button>
+        <button class="clickat-delete-scheduled" data-id="${click.id}">🗑️</button>
       </div>
     `;
   }).join('');
 }
 
 function updateScheduledList() {
-  const list = document.getElementById("ct-scheduled-list");
+  const list = document.getElementById("clickat-scheduled-list");
   if (list) {
     list.innerHTML = renderScheduledClicks();
     
     // Re-attach delete listeners
-    list.querySelectorAll(".ct-delete-scheduled").forEach(btn => {
+    list.querySelectorAll(".clickat-delete-scheduled").forEach(btn => {
       btn.addEventListener("click", (e) => {
-        const id = parseInt(e.target.closest(".ct-delete-scheduled").dataset.id);
+        const id = parseInt(e.target.closest(".clickat-delete-scheduled").dataset.id);
         deleteScheduledClick(id);
         updateScheduledList();
       });
@@ -161,18 +161,18 @@ function startElementPicker() {
   
   // Create overlay
   pickerOverlay = document.createElement("div");
-  pickerOverlay.id = "ct-picker-overlay";
+  pickerOverlay.id = "clickat-picker-overlay";
   pickerOverlay.innerHTML = `
-    <div class="ct-picker-toolbar">
-      <span class="ct-picker-title">🎯 Click to select an element</span>
-      <button id="ct-picker-cancel" class="ct-picker-btn">Cancel (ESC)</button>
+    <div class="clickat-picker-toolbar">
+      <span class="clickat-picker-title">🎯 Click to select an element</span>
+      <button id="clickat-picker-cancel" class="clickat-picker-btn">Cancel (ESC)</button>
     </div>
   `;
   document.body.appendChild(pickerOverlay);
   
   // Create highlight box
   pickerHighlight = document.createElement("div");
-  pickerHighlight.id = "ct-picker-highlight";
+  pickerHighlight.id = "clickat-picker-highlight";
   document.body.appendChild(pickerHighlight);
   
   // Event listeners
@@ -180,14 +180,14 @@ function startElementPicker() {
   document.addEventListener("click", handlePickerClick, true);
   document.addEventListener("keydown", handlePickerKeydown);
   
-  document.getElementById("ct-picker-cancel").addEventListener("click", cancelPicker);
+  document.getElementById("clickat-picker-cancel").addEventListener("click", cancelPicker);
 }
 
 function handlePickerMouseMove(e) {
   if (!isPickerActive) return;
   
   const element = document.elementFromPoint(e.clientX, e.clientY);
-  if (!element || element.id === "ct-picker-highlight" || element.closest("#ct-picker-overlay")) {
+  if (!element || element.id === "clickat-picker-highlight" || element.closest("#clickat-picker-overlay")) {
     pickerHighlight.style.display = "none";
     return;
   }
@@ -206,7 +206,7 @@ function handlePickerClick(e) {
   const target = document.elementFromPoint(e.clientX, e.clientY);
   
   // Ignore clicks on picker UI
-  if (target.closest("#ct-picker-overlay") || target.id === "ct-picker-highlight") {
+  if (target.closest("#clickat-picker-overlay") || target.id === "clickat-picker-highlight") {
     return;
   }
   
@@ -253,53 +253,53 @@ function showModal() {
     return;
   }
 
-  const existingModal = document.getElementById("ct-extension-modal");
+  const existingModal = document.getElementById("clickat-extension-modal");
   if (existingModal) existingModal.remove();
 
   const modal = document.createElement("div");
-  modal.id = "ct-extension-modal";
+  modal.id = "clickat-extension-modal";
   
   modal.innerHTML = `
-    <div class="ct-modal-content">
+    <div class="clickat-modal-content">
       <h3>⏰ Schedule Click</h3>
       <p>When should it be clicked?</p>
-      <input type="time" id="ct-time-input" required step="1">
+      <input type="time" id="clickat-time-input" required step="1">
       
-      <div class="ct-quick-time">
-        <button class="ct-quick-btn" data-minutes="5">+5m</button>
-        <button class="ct-quick-btn" data-minutes="30">+30m</button>
-        <button class="ct-quick-btn" data-minutes="60">+1h</button>
-        <button class="ct-quick-btn" data-minutes="300">+5h</button>
+      <div class="clickat-quick-time">
+        <button class="clickat-quick-btn" data-minutes="5">+5m</button>
+        <button class="clickat-quick-btn" data-minutes="30">+30m</button>
+        <button class="clickat-quick-btn" data-minutes="60">+1h</button>
+        <button class="clickat-quick-btn" data-minutes="300">+5h</button>
       </div>
       
-      <div class="ct-mode-selector">
-        <label class="ct-mode-label">Click mode:</label>
-        <div class="ct-mode-options">
-          <label class="ct-mode-option">
+      <div class="clickat-mode-selector">
+        <label class="clickat-mode-label">Click mode:</label>
+        <div class="clickat-mode-options">
+          <label class="clickat-mode-option">
             <input type="radio" name="click-mode" value="element" checked>
-            <span class="ct-mode-icon">🎯</span>
-            <span class="ct-mode-text">Element</span>
+            <span class="clickat-mode-icon">🎯</span>
+            <span class="clickat-mode-text">Element</span>
           </label>
-          <label class="ct-mode-option">
+          <label class="clickat-mode-option">
             <input type="radio" name="click-mode" value="coordinates">
-            <span class="ct-mode-icon">📍</span>
-            <span class="ct-mode-text">Coordinates</span>
+            <span class="clickat-mode-icon">📍</span>
+            <span class="clickat-mode-text">Coordinates</span>
           </label>
         </div>
       </div>
       
-      <div class="ct-mode-info" id="ct-mode-info">
-        <div class="ct-mode-info-element">
-          <strong>Element:</strong> <span class="ct-element-preview">${clickContext?.element?.tagName?.toLowerCase() || 'N/A'}</span>
+      <div class="clickat-mode-info" id="clickat-mode-info">
+        <div class="clickat-mode-info-element">
+          <strong>Element:</strong> <span class="clickat-element-preview">${clickContext?.element?.tagName?.toLowerCase() || 'N/A'}</span>
         </div>
-        <div class="ct-mode-info-coordinates" style="display: none;">
-          <strong>Coordinates:</strong> <span class="ct-coordinates-preview">X: ${clickContext?.x || 0}, Y: ${clickContext?.y || 0}</span>
+        <div class="clickat-mode-info-coordinates" style="display: none;">
+          <strong>Coordinates:</strong> <span class="clickat-coordinates-preview">X: ${clickContext?.x || 0}, Y: ${clickContext?.y || 0}</span>
         </div>
       </div>
       
-      <div class="ct-buttons">
-        <button id="ct-cancel">Cancel</button>
-        <button id="ct-confirm">Confirm</button>
+      <div class="clickat-buttons">
+        <button id="clickat-cancel">Cancel</button>
+        <button id="clickat-confirm">Confirm</button>
       </div>
     </div>
   `;
@@ -311,12 +311,12 @@ function showModal() {
   now.setMinutes(now.getMinutes() + 1);
   now.setSeconds(0);
   const timeString = now.toTimeString().split(' ')[0].substring(0, 5);
-  const input = document.getElementById("ct-time-input");
+  const input = document.getElementById("clickat-time-input");
   input.value = timeString;
   input.focus();
 
   // Quick time buttons
-  modal.querySelectorAll('.ct-quick-btn').forEach(btn => {
+  modal.querySelectorAll('.clickat-quick-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       const minutes = parseInt(btn.dataset.minutes);
@@ -330,8 +330,8 @@ function showModal() {
 
   // Setup mode radio buttons
   const modeRadios = modal.querySelectorAll('input[name="click-mode"]');
-  const elementInfo = modal.querySelector(".ct-mode-info-element");
-  const coordinatesInfo = modal.querySelector(".ct-mode-info-coordinates");
+  const elementInfo = modal.querySelector(".clickat-mode-info-element");
+  const coordinatesInfo = modal.querySelector(".clickat-mode-info-coordinates");
   
   modeRadios.forEach(radio => {
     radio.addEventListener("change", (e) => {
@@ -346,8 +346,8 @@ function showModal() {
     });
   });
 
-  document.getElementById("ct-cancel").addEventListener("click", () => modal.remove());
-  document.getElementById("ct-confirm").addEventListener("click", () => scheduleClick(modal));
+  document.getElementById("clickat-cancel").addEventListener("click", () => modal.remove());
+  document.getElementById("clickat-confirm").addEventListener("click", () => scheduleClick(modal));
   
   modal.addEventListener("click", (e) => {
     if (e.target === modal) modal.remove();
@@ -355,7 +355,7 @@ function showModal() {
 }
 
 function scheduleClick(modal) {
-  const timeInput = document.getElementById("ct-time-input").value;
+  const timeInput = document.getElementById("clickat-time-input").value;
   if (!timeInput) return;
 
   const selectedMode = modal.querySelector('input[name="click-mode"]:checked').value;
@@ -398,41 +398,41 @@ function scheduleClick(modal) {
 }
 
 function showConfirmation(modal, targetTime, minutesLeft, isTomorrow, clickMode) {
-  const contentDiv = modal.querySelector(".ct-modal-content");
+  const contentDiv = modal.querySelector(".clickat-modal-content");
   
   const timeStr = targetTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   const dayStr = isTomorrow ? "tomorrow" : "today";
   const modeStr = clickMode === "coordinates" ? "at exact coordinates" : "on the web element";
 
   contentDiv.innerHTML = `
-    <span class="ct-success-icon">✓</span>
+    <span class="clickat-success-icon">✓</span>
     <h3>✅ Scheduled!</h3>
-    <p>The click will be performed ${dayStr} at <span class="ct-highlight">${timeStr}</span> ${modeStr}.</p>
+    <p>The click will be performed ${dayStr} at <span class="clickat-highlight">${timeStr}</span> ${modeStr}.</p>
     <p style="font-size: 0.9em; opacity: 0.8;">⏱️ About ${minutesLeft} minutes left</p>
-    <div class="ct-buttons">
-      <button id="ct-close-success">Close</button>
+    <div class="clickat-buttons">
+      <button id="clickat-close-success">Close</button>
     </div>
   `;
 
-  document.getElementById("ct-close-success").addEventListener("click", () => modal.remove());
+  document.getElementById("clickat-close-success").addEventListener("click", () => modal.remove());
 }
 
 function showError(title, message) {
   const errorModal = document.createElement("div");
-  errorModal.id = "ct-extension-error-modal";
+  errorModal.id = "clickat-extension-error-modal";
   errorModal.innerHTML = `
-    <div class="ct-modal-content">
-      <h3 style="color: var(--ct-error-color);">⚠️ ${title}</h3>
+    <div class="clickat-modal-content">
+      <h3 style="color: var(--clickat-error-color);">⚠️ ${title}</h3>
       <p>${message}</p>
-      <div class="ct-buttons">
-        <button id="ct-error-close">Close</button>
+      <div class="clickat-buttons">
+        <button id="clickat-error-close">Close</button>
       </div>
     </div>
   `;
   
   document.body.appendChild(errorModal);
   
-  document.getElementById("ct-error-close").addEventListener("click", () => errorModal.remove());
+  document.getElementById("clickat-error-close").addEventListener("click", () => errorModal.remove());
   errorModal.addEventListener("click", (e) => {
     if (e.target === errorModal) errorModal.remove();
   });

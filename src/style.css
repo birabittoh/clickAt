@@ -1,55 +1,55 @@
 :root {
-  --ct-bg-color: #ffffff;
-  --ct-text-color: #333333;
-  --ct-input-bg: #f0f0f0;
-  --ct-input-border: #cccccc;
-  --ct-shadow: rgba(0, 0, 0, 0.2);
-  --ct-overlay: rgba(0, 0, 0, 0.5);
-  --ct-btn-confirm: #4CAF50;
-  --ct-btn-cancel: #f44336;
-  --ct-btn-text: #ffffff;
-  --ct-accent: #2196F3;
-  --ct-radio-selected: #4CAF50;
-  --ct-radio-unselected: #e0e0e0;
-  --ct-error-color: #f44336;
-  --ct-border-color: #e0e0e0;
+  --clickat-bg-color: #ffffff;
+  --clickat-text-color: #333333;
+  --clickat-input-bg: #f0f0f0;
+  --clickat-input-border: #cccccc;
+  --clickat-shadow: rgba(0, 0, 0, 0.2);
+  --clickat-overlay: rgba(0, 0, 0, 0.5);
+  --clickat-btn-confirm: #4CAF50;
+  --clickat-btn-cancel: #f44336;
+  --clickat-btn-text: #ffffff;
+  --clickat-accent: #2196F3;
+  --clickat-radio-selected: #4CAF50;
+  --clickat-radio-unselected: #e0e0e0;
+  --clickat-error-color: #f44336;
+  --clickat-border-color: #e0e0e0;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --ct-bg-color: #2b2b2b;
-    --ct-text-color: #e0e0e0;
-    --ct-input-bg: #3a3a3a;
-    --ct-input-border: #555555;
-    --ct-shadow: rgba(0, 0, 0, 0.6);
-    --ct-overlay: rgba(0, 0, 0, 0.7);
-    --ct-btn-confirm: #43a047;
-    --ct-btn-cancel: #e53935;
-    --ct-radio-selected: #43a047;
-    --ct-radio-unselected: #424242;
-    --ct-error-color: #ef5350;
-    --ct-border-color: #424242;
+    --clickat-bg-color: #2b2b2b;
+    --clickat-text-color: #e0e0e0;
+    --clickat-input-bg: #3a3a3a;
+    --clickat-input-border: #555555;
+    --clickat-shadow: rgba(0, 0, 0, 0.6);
+    --clickat-overlay: rgba(0, 0, 0, 0.7);
+    --clickat-btn-confirm: #43a047;
+    --clickat-btn-cancel: #e53935;
+    --clickat-radio-selected: #43a047;
+    --clickat-radio-unselected: #424242;
+    --clickat-error-color: #ef5350;
+    --clickat-border-color: #424242;
   }
 }
 
 /* ========== MAIN UI PANEL ========== */
-#ct-main-ui {
+#clickat-main-ui {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: var(--ct-overlay);
+  background-color: var(--clickat-overlay);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 2147483647;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   backdrop-filter: blur(3px);
-  animation: ct-fade-in 0.2s ease-out;
+  animation: clickat-fade-in 0.2s ease-out;
 }
 
-@keyframes ct-fade-in {
+@keyframes clickat-fade-in {
   from {
     opacity: 0;
   }
@@ -58,21 +58,21 @@
   }
 }
 
-.ct-main-panel {
-  background: var(--ct-bg-color);
-  color: var(--ct-text-color);
+.clickat-main-panel {
+  background: var(--clickat-bg-color);
+  color: var(--clickat-text-color);
   border-radius: 16px;
-  box-shadow: 0 8px 32px var(--ct-shadow);
+  box-shadow: 0 8px 32px var(--clickat-shadow);
   width: 90%;
   max-width: 500px;
   max-height: 80vh;
   display: flex;
   flex-direction: column;
-  animation: ct-slide-up 0.3s ease-out;
+  animation: clickat-slide-up 0.3s ease-out;
   overflow: hidden;
 }
 
-@keyframes ct-slide-up {
+@keyframes clickat-slide-up {
   from {
     opacity: 0;
     transform: translateY(30px) scale(0.95);
@@ -83,44 +83,44 @@
   }
 }
 
-.ct-main-header {
+.clickat-main-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  border-bottom: 1px solid var(--ct-border-color);
+  border-bottom: 1px solid var(--clickat-border-color);
 }
 
-.ct-main-header h3 {
+.clickat-main-header h3 {
   margin: 0;
   font-size: 1.3rem;
   font-weight: 600;
 }
 
-.ct-icon-btn {
+.clickat-icon-btn {
   background: transparent;
   border: none;
   font-size: 1.5rem;
-  color: var(--ct-text-color);
+  color: var(--clickat-text-color);
   cursor: pointer;
   padding: 5px 10px;
   border-radius: 6px;
   transition: background 0.2s;
 }
 
-.ct-icon-btn:hover {
-  background: var(--ct-input-bg);
+.clickat-icon-btn:hover {
+  background: var(--clickat-input-bg);
 }
 
-.ct-main-actions {
+.clickat-main-actions {
   padding: 20px;
-  border-bottom: 1px solid var(--ct-border-color);
+  border-bottom: 1px solid var(--clickat-border-color);
 }
 
-.ct-primary-btn {
+.clickat-primary-btn {
   width: 100%;
   padding: 14px 20px;
-  background: linear-gradient(135deg, var(--ct-accent), #1976D2);
+  background: linear-gradient(135deg, var(--clickat-accent), #1976D2);
   color: white;
   border: none;
   border-radius: 10px;
@@ -135,53 +135,53 @@
   box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
 }
 
-.ct-primary-btn:hover {
+.clickat-primary-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
 }
 
-.ct-primary-btn:active {
+.clickat-primary-btn:active {
   transform: translateY(0);
 }
 
-.ct-btn-icon {
+.clickat-btn-icon {
   font-size: 1.2rem;
 }
 
 /* ========== SCHEDULED CLICKS LIST ========== */
-.ct-scheduled-list {
+.clickat-scheduled-list {
   padding: 20px;
   overflow-y: auto;
   max-height: 50vh;
   flex: 1;
 }
 
-.ct-empty-state {
+.clickat-empty-state {
   text-align: center;
   padding: 40px 20px;
-  color: var(--ct-text-color);
+  color: var(--clickat-text-color);
   opacity: 0.7;
 }
 
-.ct-empty-icon {
+.clickat-empty-icon {
   font-size: 3rem;
   display: block;
   margin-bottom: 15px;
 }
 
-.ct-empty-state p {
+.clickat-empty-state p {
   margin: 10px 0 5px 0;
   font-size: 1.1rem;
   font-weight: 600;
 }
 
-.ct-empty-state small {
+.clickat-empty-state small {
   font-size: 0.9rem;
   opacity: 0.8;
 }
 
-.ct-scheduled-item {
-  background: var(--ct-input-bg);
+.clickat-scheduled-item {
+  background: var(--clickat-input-bg);
   border-radius: 12px;
   padding: 15px;
   margin-bottom: 12px;
@@ -193,24 +193,24 @@
   border: 2px solid transparent;
 }
 
-.ct-scheduled-item:hover {
-  border-color: var(--ct-accent);
+.clickat-scheduled-item:hover {
+  border-color: var(--clickat-accent);
   transform: translateX(5px);
 }
 
-.ct-scheduled-info {
+.clickat-scheduled-info {
   flex: 1;
 }
 
-.ct-scheduled-time {
+.clickat-scheduled-time {
   display: flex;
   gap: 8px;
   margin-bottom: 10px;
   flex-wrap: wrap;
 }
 
-.ct-time-badge {
-  background: var(--ct-accent);
+.clickat-time-badge {
+  background: var(--clickat-accent);
   color: white;
   padding: 4px 12px;
   border-radius: 6px;
@@ -218,8 +218,8 @@
   font-size: 1rem;
 }
 
-.ct-day-badge {
-  background: var(--ct-btn-confirm);
+.clickat-day-badge {
+  background: var(--clickat-btn-confirm);
   color: white;
   padding: 4px 10px;
   border-radius: 6px;
@@ -227,7 +227,7 @@
   font-weight: 600;
 }
 
-.ct-scheduled-details {
+.clickat-scheduled-details {
   display: flex;
   gap: 8px;
   margin-bottom: 8px;
@@ -235,18 +235,18 @@
   align-items: center;
 }
 
-.ct-mode-badge {
+.clickat-mode-badge {
   background: rgba(33, 150, 243, 0.15);
-  color: var(--ct-accent);
+  color: var(--clickat-accent);
   padding: 3px 10px;
   border-radius: 6px;
   font-size: 0.85rem;
   font-weight: 600;
 }
 
-.ct-element-tag {
+.clickat-element-tag {
   background: rgba(76, 175, 80, 0.15);
-  color: var(--ct-btn-confirm);
+  color: var(--clickat-btn-confirm);
   padding: 3px 10px;
   border-radius: 6px;
   font-family: monospace;
@@ -254,20 +254,20 @@
   font-weight: 600;
 }
 
-.ct-coords-text {
+.clickat-coords-text {
   font-family: monospace;
   font-size: 0.85rem;
   opacity: 0.8;
 }
 
-.ct-countdown {
+.clickat-countdown {
   font-size: 0.85rem;
   opacity: 0.7;
   margin-top: 5px;
 }
 
-.ct-delete-scheduled {
-  background: var(--ct-btn-cancel);
+.clickat-delete-scheduled {
+  background: var(--clickat-btn-cancel);
   color: white;
   border: none;
   border-radius: 8px;
@@ -279,17 +279,17 @@
   flex-shrink: 0;
 }
 
-.ct-delete-scheduled:hover {
+.clickat-delete-scheduled:hover {
   transform: scale(1.1);
   box-shadow: 0 2px 8px rgba(244, 67, 54, 0.4);
 }
 
-.ct-delete-scheduled:active {
+.clickat-delete-scheduled:active {
   transform: scale(0.95);
 }
 
 /* ========== ELEMENT PICKER ========== */
-#ct-picker-overlay {
+#clickat-picker-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -300,12 +300,12 @@
   pointer-events: none;
 }
 
-.ct-picker-toolbar {
+.clickat-picker-toolbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background: linear-gradient(135deg, var(--ct-accent), #1976D2);
+  background: linear-gradient(135deg, var(--clickat-accent), #1976D2);
   color: white;
   padding: 15px 20px;
   display: flex;
@@ -316,7 +316,7 @@
   pointer-events: all;
 }
 
-.ct-picker-title {
+.clickat-picker-title {
   font-weight: 600;
   font-size: 1rem;
   display: flex;
@@ -324,7 +324,7 @@
   gap: 8px;
 }
 
-.ct-picker-btn {
+.clickat-picker-btn {
   background: rgba(255, 255, 255, 0.2);
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -335,29 +335,29 @@
   transition: all 0.2s;
 }
 
-.ct-picker-btn:hover {
+.clickat-picker-btn:hover {
   background: rgba(255, 255, 255, 0.3);
 }
 
-#ct-picker-highlight {
+#clickat-picker-highlight {
   position: absolute;
-  border: 3px solid var(--ct-accent);
+  border: 3px solid var(--clickat-accent);
   background: rgba(33, 150, 243, 0.1);
   pointer-events: none;
   z-index: 2147483646;
-  box-shadow: 0 0 0 2px white, 0 0 0 4px var(--ct-accent);
+  box-shadow: 0 0 0 2px white, 0 0 0 4px var(--clickat-accent);
   transition: all 0.05s ease-out;
 }
 
 /* ========== MODAL ========== */
-#ct-extension-modal,
-#ct-extension-error-modal {
+#clickat-extension-modal,
+#clickat-extension-error-modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: var(--ct-overlay);
+  background-color: var(--clickat-overlay);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -366,21 +366,21 @@
   backdrop-filter: blur(2px);
 }
 
-.ct-modal-content {
-  background: var(--ct-bg-color);
-  color: var(--ct-text-color);
+.clickat-modal-content {
+  background: var(--clickat-bg-color);
+  color: var(--clickat-text-color);
   padding: 25px;
   border-radius: 12px;
-  box-shadow: 0 4px 20px var(--ct-shadow);
+  box-shadow: 0 4px 20px var(--clickat-shadow);
   min-width: 320px;
   max-width: 90%;
   width: 400px;
   text-align: center;
   transition: all 0.3s ease;
-  animation: ct-modal-appear 0.3s ease-out;
+  animation: clickat-modal-appear 0.3s ease-out;
 }
 
-@keyframes ct-modal-appear {
+@keyframes clickat-modal-appear {
   from {
     opacity: 0;
     transform: translateY(-20px) scale(0.95);
@@ -391,99 +391,99 @@
   }
 }
 
-.ct-modal-content h3 {
+.clickat-modal-content h3 {
   margin-top: 0;
   margin-bottom: 15px;
   font-size: 1.4rem;
 }
 
-.ct-modal-content p {
+.clickat-modal-content p {
   margin-bottom: 20px;
   line-height: 1.5;
 }
 
-#ct-time-input {
+#clickat-time-input {
   font-size: 1.5rem;
   padding: 10px;
   margin: 10px 0 25px 0;
   width: 100%;
   box-sizing: border-box;
-  background-color: var(--ct-input-bg);
-  border: 1px solid var(--ct-input-border);
-  color: var(--ct-text-color);
+  background-color: var(--clickat-input-bg);
+  border: 1px solid var(--clickat-input-border);
+  color: var(--clickat-text-color);
   border-radius: 6px;
   text-align: center;
   color-scheme: light dark;
   transition: border-color 0.2s;
 }
 
-#ct-time-input:focus {
+#clickat-time-input:focus {
   outline: none;
-  border-color: var(--ct-accent);
+  border-color: var(--clickat-accent);
   box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
 }
 
 /* Quick Time Buttons */
-.ct-quick-time {
+.clickat-quick-time {
   display: flex;
   gap: 8px;
   justify-content: center;
   margin-bottom: 20px;
 }
 
-.ct-quick-btn {
+.clickat-quick-btn {
   padding: 8px 14px;
-  background: var(--ct-input-bg);
-  border: 1px solid var(--ct-input-border);
+  background: var(--clickat-input-bg);
+  border: 1px solid var(--clickat-input-border);
   border-radius: 6px;
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--ct-text-color);
+  color: var(--clickat-text-color);
   cursor: pointer;
   transition: all 0.2s;
 }
 
-.ct-quick-btn:hover {
-  background: var(--ct-accent);
+.clickat-quick-btn:hover {
+  background: var(--clickat-accent);
   color: white;
-  border-color: var(--ct-accent);
+  border-color: var(--clickat-accent);
   transform: translateY(-1px);
   box-shadow: 0 2px 6px rgba(33, 150, 243, 0.3);
 }
 
-.ct-quick-btn:active {
+.clickat-quick-btn:active {
   transform: translateY(0);
 }
 
 /* Mode Selector */
-.ct-mode-selector {
+.clickat-mode-selector {
   margin: 20px 0;
   text-align: left;
 }
 
-.ct-mode-label {
+.clickat-mode-label {
   display: block;
   font-size: 0.9rem;
   font-weight: 600;
   margin-bottom: 10px;
-  color: var(--ct-text-color);
+  color: var(--clickat-text-color);
   opacity: 0.9;
 }
 
-.ct-mode-options {
+.clickat-mode-options {
   display: flex;
   gap: 10px;
   justify-content: space-between;
 }
 
-.ct-mode-option {
+.clickat-mode-option {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 15px 10px;
-  background: var(--ct-input-bg);
-  border: 2px solid var(--ct-radio-unselected);
+  background: var(--clickat-input-bg);
+  border: 2px solid var(--clickat-radio-unselected);
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -492,75 +492,75 @@
   position: relative;
 }
 
-.ct-mode-option:hover {
-  border-color: var(--ct-accent);
+.clickat-mode-option:hover {
+  border-color: var(--clickat-accent);
   background: rgba(33, 150, 243, 0.05);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.ct-mode-option input[type="radio"] {
+.clickat-mode-option input[type="radio"] {
   position: absolute;
   top: 8px;
   right: 8px;
   width: 18px;
   height: 18px;
   cursor: pointer;
-  accent-color: var(--ct-radio-selected);
+  accent-color: var(--clickat-radio-selected);
   margin: 0;
 }
 
-.ct-mode-icon {
+.clickat-mode-icon {
   font-size: 2rem;
   margin-bottom: 8px;
   display: block;
   transition: transform 0.2s;
 }
 
-.ct-mode-option:hover .ct-mode-icon {
+.clickat-mode-option:hover .clickat-mode-icon {
   transform: scale(1.1);
 }
 
-.ct-mode-text {
+.clickat-mode-text {
   font-size: 0.95rem;
   font-weight: 500;
-  color: var(--ct-text-color);
+  color: var(--clickat-text-color);
   text-align: center;
 }
 
-.ct-mode-option input[type="radio"]:checked ~ .ct-mode-icon {
+.clickat-mode-option input[type="radio"]:checked ~ .clickat-mode-icon {
   filter: drop-shadow(0 2px 4px rgba(33, 150, 243, 0.3));
   transform: scale(1.05);
 }
 
-.ct-mode-option input[type="radio"]:checked ~ .ct-mode-text {
-  color: var(--ct-accent);
+.clickat-mode-option input[type="radio"]:checked ~ .clickat-mode-text {
+  color: var(--clickat-accent);
   font-weight: 600;
 }
 
-.ct-mode-option:has(input[type="radio"]:checked) {
-  border-color: var(--ct-accent);
+.clickat-mode-option:has(input[type="radio"]:checked) {
+  border-color: var(--clickat-accent);
   background: rgba(33, 150, 243, 0.1);
-  box-shadow: 0 0 0 1px var(--ct-accent);
+  box-shadow: 0 0 0 1px var(--clickat-accent);
 }
 
-.ct-mode-info {
-  background: var(--ct-input-bg);
+.clickat-mode-info {
+  background: var(--clickat-input-bg);
   padding: 12px 15px;
   border-radius: 8px;
   margin: 15px 0 25px 0;
   text-align: left;
   font-size: 0.9rem;
-  border-left: 4px solid var(--ct-accent);
+  border-left: 4px solid var(--clickat-accent);
 }
 
-.ct-mode-info div {
+.clickat-mode-info div {
   margin: 5px 0;
 }
 
-.ct-element-preview,
-.ct-coordinates-preview {
-  color: var(--ct-accent);
+.clickat-element-preview,
+.clickat-coordinates-preview {
+  color: var(--clickat-accent);
   font-family: monospace;
   background: rgba(0, 0, 0, 0.1);
   padding: 2px 6px;
@@ -568,13 +568,13 @@
   margin-left: 5px;
 }
 
-.ct-buttons {
+.clickat-buttons {
   display: flex;
   justify-content: stretch;
   gap: 15px;
 }
 
-.ct-buttons button {
+.clickat-buttons button {
   flex: 1;
   padding: 10px 16px;
   cursor: pointer;
@@ -582,86 +582,86 @@
   border-radius: 6px;
   font-size: 1rem;
   font-weight: 600;
-  color: var(--ct-btn-text);
+  color: var(--clickat-btn-text);
   transition: all 0.2s;
 }
 
-.ct-buttons button:hover {
+.clickat-buttons button:hover {
   opacity: 0.9;
   transform: translateY(-1px);
 }
 
-#ct-confirm, #ct-close-success, #ct-error-close {
-  background-color: var(--ct-btn-confirm);
+#clickat-confirm, #clickat-close-success, #clickat-error-close {
+  background-color: var(--clickat-btn-confirm);
 }
 
-#ct-cancel {
-  background-color: var(--ct-btn-cancel);
+#clickat-cancel {
+  background-color: var(--clickat-btn-cancel);
 }
 
-.ct-success-icon {
+.clickat-success-icon {
   font-size: 3rem;
-  color: var(--ct-btn-confirm);
+  color: var(--clickat-btn-confirm);
   margin-bottom: 10px;
   display: block;
 }
 
-.ct-highlight {
-  color: var(--ct-accent);
+.clickat-highlight {
+  color: var(--clickat-accent);
   font-weight: bold;
 }
 
 /* ========== MOBILE OPTIMIZATIONS ========== */
 @media (max-width: 600px) {
-  .ct-main-panel {
+  .clickat-main-panel {
     width: 95%;
     max-height: 90vh;
     border-radius: 12px;
   }
   
-  .ct-modal-content {
+  .clickat-modal-content {
     padding: 20px;
     min-width: 280px;
   }
   
-  #ct-time-input {
+  #clickat-time-input {
     font-size: 1.3rem;
   }
   
-  .ct-scheduled-item {
+  .clickat-scheduled-item {
     padding: 12px;
   }
   
-  .ct-time-badge {
+  .clickat-time-badge {
     font-size: 0.9rem;
     padding: 3px 10px;
   }
   
-  .ct-picker-toolbar {
+  .clickat-picker-toolbar {
     flex-direction: column;
     gap: 10px;
     padding: 12px;
   }
   
-  .ct-picker-title {
+  .clickat-picker-title {
     font-size: 0.9rem;
   }
   
   /* Mode options responsive */
-  .ct-mode-option {
+  .clickat-mode-option {
     padding: 12px 8px;
   }
   
-  .ct-mode-icon {
+  .clickat-mode-icon {
     font-size: 1.6rem;
     margin-bottom: 6px;
   }
   
-  .ct-mode-text {
+  .clickat-mode-text {
     font-size: 0.85rem;
   }
   
-  .ct-mode-option input[type="radio"] {
+  .clickat-mode-option input[type="radio"] {
     width: 16px;
     height: 16px;
     top: 6px;
@@ -669,7 +669,7 @@
   }
   
   /* Quick time buttons mobile */
-  .ct-quick-btn {
+  .clickat-quick-btn {
     padding: 10px 12px;
     font-size: 0.85rem;
   }
@@ -677,15 +677,15 @@
 
 /* Touch-friendly tap targets */
 @media (hover: none) and (pointer: coarse) {
-  .ct-buttons button {
+  .clickat-buttons button {
     padding: 14px 16px;
   }
   
-  .ct-icon-btn {
+  .clickat-icon-btn {
     padding: 10px 15px;
   }
   
-  .ct-delete-scheduled {
+  .clickat-delete-scheduled {
     width: 44px;
     height: 44px;
   }
