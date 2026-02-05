@@ -51,8 +51,7 @@ function showMainUI() {
       
       <div class="ct-main-actions">
         <button id="ct-add-click" class="ct-primary-btn">
-          <span class="ct-btn-icon">➕</span>
-          New click
+          Schedule new click
         </button>
       </div>
       
@@ -87,7 +86,6 @@ function renderScheduledClicks() {
       <div class="ct-empty-state">
         <span class="ct-empty-icon">⏰</span>
         <p>No scheduled clicks yet</p>
-        <small>Tap "Schedule New Click" to get started</small>
       </div>
     `;
   }
@@ -267,6 +265,13 @@ function showModal() {
       <p>When should it be clicked?</p>
       <input type="time" id="ct-time-input" required step="1">
       
+      <div class="ct-quick-time">
+        <button class="ct-quick-btn" data-minutes="5">+5m</button>
+        <button class="ct-quick-btn" data-minutes="30">+30m</button>
+        <button class="ct-quick-btn" data-minutes="60">+1h</button>
+        <button class="ct-quick-btn" data-minutes="300">+5h</button>
+      </div>
+      
       <div class="ct-mode-selector">
         <label class="ct-mode-label">Click mode:</label>
         <div class="ct-mode-options">
@@ -309,6 +314,19 @@ function showModal() {
   const input = document.getElementById("ct-time-input");
   input.value = timeString;
   input.focus();
+
+  // Quick time buttons
+  modal.querySelectorAll('.ct-quick-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const minutes = parseInt(btn.dataset.minutes);
+      const newTime = new Date();
+      newTime.setMinutes(newTime.getMinutes() + minutes);
+      newTime.setSeconds(0);
+      const newTimeString = newTime.toTimeString().split(' ')[0].substring(0, 5);
+      input.value = newTimeString;
+    });
+  });
 
   // Setup mode radio buttons
   const modeRadios = modal.querySelectorAll('input[name="click-mode"]');
@@ -486,57 +504,11 @@ function performClick(mode, context) {
   }
 }
 
-// ========== FLOATING BUTTON (Mobile) ==========
-function createFloatingButton() {
-  // Check if button already exists
-  if (document.getElementById("ct-floating-btn")) return;
-  
-  const btn = document.createElement("button");
-  btn.id = "ct-floating-btn";
-  btn.innerHTML = "⏰";
-  btn.title = "clickAt - Schedule clicks";
-  
-  document.body.appendChild(btn);
-  
-  btn.addEventListener("click", () => toggleMainUI());
-  
-  // Make it draggable
-  let isDragging = false;
-  let startX, startY, startLeft, startTop;
-  
-  btn.addEventListener("touchstart", (e) => {
-    isDragging = true;
-    const touch = e.touches[0];
-    startX = touch.clientX;
-    startY = touch.clientY;
-    const rect = btn.getBoundingClientRect();
-    startLeft = rect.left;
-    startTop = rect.top;
-    e.preventDefault();
+// Clean up when page unloads
+window.addEventListener('beforeunload', () => {
+  scheduledClicks.forEach(click => {
+    if (click.timerId) {
+      clearTimeout(click.timerId);
+    }
   });
-  
-  document.addEventListener("touchmove", (e) => {
-    if (!isDragging) return;
-    const touch = e.touches[0];
-    const deltaX = touch.clientX - startX;
-    const deltaY = touch.clientY - startY;
-    btn.style.left = (startLeft + deltaX) + "px";
-    btn.style.top = (startTop + deltaY) + "px";
-    btn.style.right = "auto";
-    btn.style.bottom = "auto";
-  });
-  
-  document.addEventListener("touchend", () => {
-    isDragging = false;
-  });
-}
-
-// Initialize floating button on mobile devices
-if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-  // Wait for page to be ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', createFloatingButton);
-  } else {
-    createFloatingButton();
-  }
-}
+});

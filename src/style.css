@@ -32,37 +32,6 @@
   }
 }
 
-/* ========== FLOATING BUTTON ========== */
-#ct-floating-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--ct-accent), #1976D2);
-  color: white;
-  border: none;
-  font-size: 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  z-index: 2147483645;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  touch-action: none;
-}
-
-#ct-floating-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-}
-
-#ct-floating-btn:active {
-  transform: scale(0.95);
-}
-
 /* ========== MAIN UI PANEL ========== */
 #ct-main-ui {
   position: fixed;
@@ -454,6 +423,38 @@
   box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
 }
 
+/* Quick Time Buttons */
+.ct-quick-time {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.ct-quick-btn {
+  padding: 8px 14px;
+  background: var(--ct-input-bg);
+  border: 1px solid var(--ct-input-border);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ct-text-color);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ct-quick-btn:hover {
+  background: var(--ct-accent);
+  color: white;
+  border-color: var(--ct-accent);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(33, 150, 243, 0.3);
+}
+
+.ct-quick-btn:active {
+  transform: translateY(0);
+}
+
 /* Mode Selector */
 .ct-mode-selector {
   margin: 20px 0;
@@ -665,6 +666,12 @@
     height: 16px;
     top: 6px;
     right: 6px;
+  }
+  
+  /* Quick time buttons mobile */
+  .ct-quick-btn {
+    padding: 10px 12px;
+    font-size: 0.85rem;
   }
 }
 
