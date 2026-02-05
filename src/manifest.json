@@ -1,13 +1,25 @@
 {
   "manifest_version": 3,
   "name": "clickAt",
-  "version": "1.0",
-  "description": "Click somewhere at a specific time.",
+  "version": "2.0",
+  "description": "Schedule clicks on web elements or coordinates at specific times. Works on desktop and mobile.",
   "permissions": [
     "contextMenus",
     "activeTab",
     "scripting"
   ],
+  "action": {
+    "default_title": "clickAt - Schedule clicks"
+  },
+  "commands": {
+    "pick-element": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+K",
+        "mac": "Command+Shift+K"
+      },
+      "description": "Start element picker"
+    }
+  },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
