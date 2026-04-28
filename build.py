@@ -163,6 +163,7 @@ def main() -> int:
     
     parser = argparse.ArgumentParser(description='Build and package browser extension')
     parser.add_argument('action', choices=['build', 'clean', 'release', 'all'], help='Action to perform')
+    parser.add_argument('--no-zip', action='store_true', help='Skip zipping the build artifacts')
     
     args = parser.parse_args()
 
@@ -175,12 +176,12 @@ def main() -> int:
                 return 0
         case 'release':
             if build():
-                if package():
+                if args.no_zip or package():
                     return 0
         case 'all':
             if clean():
                 if build():
-                    if package():
+                    if args.no_zip or package():
                         return 0
     
     return 1

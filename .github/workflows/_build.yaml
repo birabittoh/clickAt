@@ -27,25 +27,18 @@ jobs:
           python-version: '3.x'
 
       - name: Build and Package
-        run: python3 build.py release
-
-      - name: Prepare Artifacts
-        shell: bash
-        run: |
-          PREFIX="${{ inputs.artifact_name || 'clickAt' }}"
-          mv dist/chrome-release.zip "dist/${PREFIX}-chrome.zip"
-          mv dist/firefox-release.zip "dist/${PREFIX}-firefox.zip"
+        run: python3 build.py release --no-zip
 
       - name: Upload Chrome artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ inputs.artifact_name || 'clickAt' }}-chrome.zip
-          path: dist/${{ inputs.artifact_name || 'clickAt' }}-chrome.zip
+          name: ${{ inputs.artifact_name || 'clickAt' }}-chrome
+          path: dist/chrome/
           if-no-files-found: error
 
       - name: Upload Firefox artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ inputs.artifact_name || 'clickAt' }}-firefox.zip
-          path: dist/${{ inputs.artifact_name || 'clickAt' }}-firefox.zip
+          name: ${{ inputs.artifact_name || 'clickAt' }}-firefox
+          path: dist/firefox/
           if-no-files-found: error
