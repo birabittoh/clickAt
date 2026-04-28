@@ -1,0 +1,46 @@
+name: Build
+
+on:
+  workflow_call:
+    inputs:
+      publish_mode:
+        description: "'artifact' for CI workflow-artifact, 'release' for GitHub release"
+        required: true
+        type: string
+      artifact_name:
+        description: "Artifact name prefix when publish_mode is 'artifact'"
+        required: false
+        type: string
+        default: ""
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Build and Package
+        run: python3 build.py release
+
+      - name: Upload workflow artifact
+        if: inputs.publish_mode == 'artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.artifact_name || 'clickAt' }}
+          path: dist/*.zip
+          if-no-files-found: error
+
+      - name: Upload release artifact
+        if: inputs.publish_mode == 'release'
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-artifacts
+          path: dist/*.zip
+          if-no-files-found: error
