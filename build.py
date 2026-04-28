@@ -5,6 +5,7 @@ import shutil
 import sys
 import zipfile
 import logging
+import subprocess
 
 # Configure logging
 logging.basicConfig(
@@ -47,6 +48,32 @@ def copy_file(filename, dest_dir):
     else:
         logger.warning(f"File does not exist, skipping: {filename}")
 
+def get_version(base_version):
+    """Determine the extension version based on environment."""
+    # Check if we are in GitHub Actions and triggered by a tag
+    github_ref_name = os.environ.get('GITHUB_REF_NAME')
+    github_ref_type = os.environ.get('GITHUB_REF_TYPE')
+
+    if github_ref_type == 'tag' and github_ref_name:
+        # If it's a version tag (e.g., v1.2.3), use it (minus the 'v' prefix)
+        if github_ref_name.startswith('v'):
+            return github_ref_name[1:]
+        return github_ref_name
+
+    # Try to get short commit SHA
+    try:
+        short_sha = subprocess.check_output(
+            ['git', 'rev-parse', '--short', 'HEAD'],
+            stderr=subprocess.DEVNULL
+        ).decode('utf-8').strip()
+    except Exception:
+        short_sha = None
+
+    if short_sha:
+        return f"{base_version}.{short_sha}"
+
+    return base_version
+
 def create_zip(source_dir, output_zip):
     """Create a zip archive from a directory."""
     try:
@@ -82,8 +109,13 @@ def build():
     with open(manifest_path, 'r', encoding='utf-8') as f:
         base_manifest = json.load(f)
     
+    # Determine version
+    version = get_version(base_manifest.get('version', '0.1'))
+    logger.info(f"Building version: {version}")
+
     # Chrome manifest
     chrome_manifest = json.loads(json.dumps(base_manifest))
+    chrome_manifest['version'] = version
     chrome_manifest['background'] = {
         "service_worker": BACKGROUND_SRC
     }
@@ -94,6 +126,7 @@ def build():
     
     # Firefox manifest
     firefox_manifest = json.loads(json.dumps(base_manifest))
+    firefox_manifest['version'] = version
     firefox_manifest['background'] = {
         "scripts": [BACKGROUND_SRC]
     }
