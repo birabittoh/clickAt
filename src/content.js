@@ -1,3 +1,6 @@
+// Constants
+const BLACKLIST_TAGS = ['svg'];
+
 // Global state
 let clickContext = null;
 let scheduledClicks = []; // Array of {id, element, x, y, time, mode, timerId}
@@ -7,8 +10,9 @@ let pickerHighlight = null;
 
 // Listen for context menu
 document.addEventListener("contextmenu", (event) => {
+  const validTarget = getValidTarget(event.target);
   clickContext = {
-    element: event.target,
+    element: validTarget,
     x: event.clientX,
     y: event.clientY,
     timestamp: Date.now()
@@ -25,6 +29,66 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     startElementPicker();
   }
 });
+
+function hasClickEvents(element) {
+  if (!element || !element.tagName) return false;
+
+  // Common clickable tags
+  const clickableTags = ['a', 'button', 'input', 'select', 'textarea', 'label', 'summary'];
+  if (clickableTags.includes(element.tagName.toLowerCase())) return true;
+
+  // Check for common click/touch-related attributes
+  const eventAttributes = [
+    'onclick', 'onmousedown', 'onmouseup',
+    'ontouchstart', 'ontouchend', 'onpointerdown', 'onpointerup'
+  ];
+  if (eventAttributes.some(attr => element.hasAttribute(attr))) return true;
+
+  // Check for interactive roles
+  const interactiveRoles = ['button', 'link', 'checkbox', 'menuitem', 'option', 'tab', 'radio'];
+  if (element.hasAttribute('role') && interactiveRoles.includes(element.getAttribute('role'))) {
+    return true;
+  }
+
+  // Check computed style for cursor: pointer
+  const style = window.getComputedStyle(element);
+  if (style.cursor === 'pointer') return true;
+
+  return false;
+}
+
+function getValidTarget(element) {
+  let curr = element;
+  while (curr && curr.tagName) {
+    if (hasClickEvents(curr)) return curr;
+
+    // Check if curr is blacklisted or inside something blacklisted
+    let isForbidden = false;
+    for (const tag of BLACKLIST_TAGS) {
+      if (curr.tagName.toLowerCase() === tag || curr.closest(tag)) {
+        isForbidden = true;
+        break;
+      }
+    }
+
+    if (isForbidden) {
+      // It's blacklisted or inside something blacklisted, and NOT clickable.
+      // Move to parent of the closest blacklisted ancestor.
+      let blacklistedAncestor = null;
+      for (const tag of BLACKLIST_TAGS) {
+        const found = curr.closest(tag);
+        if (found && (!blacklistedAncestor || blacklistedAncestor.contains(found))) {
+          blacklistedAncestor = found;
+        }
+      }
+      curr = blacklistedAncestor ? blacklistedAncestor.parentElement : curr.parentElement;
+      continue;
+    }
+
+    return curr;
+  }
+  return curr;
+}
 
 // ========== MAIN UI ==========
 function toggleMainUI() {
@@ -186,8 +250,10 @@ function startElementPicker() {
 function handlePickerMouseMove(e) {
   if (!isPickerActive) return;
   
-  const element = document.elementFromPoint(e.clientX, e.clientY);
-  if (!element || element.id === "clickat-picker-highlight" || element.closest("#clickat-picker-overlay")) {
+  let element = document.elementFromPoint(e.clientX, e.clientY);
+  element = getValidTarget(element);
+
+  if (!element || element.closest("#clickat-picker-overlay")) {
     pickerHighlight.style.display = "none";
     return;
   }
@@ -203,10 +269,11 @@ function handlePickerMouseMove(e) {
 function handlePickerClick(e) {
   if (!isPickerActive) return;
   
-  const target = document.elementFromPoint(e.clientX, e.clientY);
+  let target = document.elementFromPoint(e.clientX, e.clientY);
+  target = getValidTarget(target);
   
   // Ignore clicks on picker UI
-  if (target.closest("#clickat-picker-overlay") || target.id === "clickat-picker-highlight") {
+  if (!target || target.closest("#clickat-picker-overlay") || target.id === "clickat-picker-highlight") {
     return;
   }
   
@@ -259,9 +326,18 @@ function showModal() {
   const modal = document.createElement("div");
   modal.id = "clickat-extension-modal";
   
+  const isClickable = hasClickEvents(clickContext.element);
+  const warningHtml = !isClickable ? `
+    <div class="clickat-clickable-warning">
+      <span class="clickat-warning-icon">⚠️</span>
+      <span class="clickat-warning-text">This element might not be clickable.</span>
+    </div>
+  ` : '';
+
   modal.innerHTML = `
     <div class="clickat-modal-content">
       <h3>⏰ Schedule Click</h3>
+      ${warningHtml}
       <p>When should it be clicked?</p>
       <input type="time" id="clickat-time-input" required step="1">
       

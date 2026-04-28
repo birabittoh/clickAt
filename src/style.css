@@ -397,6 +397,35 @@
   font-size: 1.4rem;
 }
 
+.clickat-clickable-warning {
+  background-color: rgba(255, 152, 0, 0.1);
+  border: 1px solid rgba(255, 152, 0, 0.3);
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  animation: clickat-shake 0.5s ease-in-out;
+}
+
+@keyframes clickat-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.clickat-warning-icon {
+  font-size: 1.2rem;
+}
+
+.clickat-warning-text {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #ff9800;
+}
+
 .clickat-modal-content p {
   margin-bottom: 20px;
   line-height: 1.5;
