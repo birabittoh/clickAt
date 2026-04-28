@@ -1,5 +1,8 @@
 // Constants
-const BLACKLIST_TAGS = ['svg'];
+const BLACKLIST_TAGS = [
+  'svg', 'path', 'rect', 'circle', 'ellipse', 'line', 'polyline', 'polygon',
+  'g', 'use', 'image', 'text', 'defs', 'symbol', 'clippath', 'mask', 'pattern'
+];
 
 // Global state
 let clickContext = null;
@@ -33,9 +36,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 function hasClickEvents(element) {
   if (!element || !element.tagName) return false;
 
+  const tag = element.tagName.toLowerCase();
+
   // Common clickable tags
   const clickableTags = ['a', 'button', 'input', 'select', 'textarea', 'label', 'summary'];
-  if (clickableTags.includes(element.tagName.toLowerCase())) return true;
+  if (clickableTags.includes(tag)) return true;
 
   // Check for common click/touch-related attributes
   const eventAttributes = [
@@ -45,14 +50,25 @@ function hasClickEvents(element) {
   if (eventAttributes.some(attr => element.hasAttribute(attr))) return true;
 
   // Check for interactive roles
-  const interactiveRoles = ['button', 'link', 'checkbox', 'menuitem', 'option', 'tab', 'radio'];
+  const interactiveRoles = ['button', 'link', 'checkbox', 'menuitem', 'option', 'tab', 'radio', 'switch'];
   if (element.hasAttribute('role') && interactiveRoles.includes(element.getAttribute('role'))) {
+    return true;
+  }
+
+  // Check for tabindex
+  if (element.hasAttribute('tabindex') && element.getAttribute('tabindex') !== '-1') {
     return true;
   }
 
   // Check computed style for cursor: pointer
   const style = window.getComputedStyle(element);
-  if (style.cursor === 'pointer') return true;
+  if (style.cursor === 'pointer') {
+    // If it's a blacklisted tag (like SVG components), don't trust cursor:pointer
+    // because it's often inherited from a parent button/link.
+    if (!BLACKLIST_TAGS.includes(tag)) {
+      return true;
+    }
+  }
 
   return false;
 }
@@ -60,31 +76,22 @@ function hasClickEvents(element) {
 function getValidTarget(element) {
   let curr = element;
   while (curr && curr.tagName) {
+    // If the current element has explicit click events, it's a valid target
     if (hasClickEvents(curr)) return curr;
 
-    // Check if curr is blacklisted or inside something blacklisted
-    let isForbidden = false;
-    for (const tag of BLACKLIST_TAGS) {
-      if (curr.tagName.toLowerCase() === tag || curr.closest(tag)) {
-        isForbidden = true;
-        break;
-      }
-    }
+    // Check if current element is blacklisted
+    const tag = curr.tagName.toLowerCase();
+    const isBlacklisted = BLACKLIST_TAGS.includes(tag);
 
-    if (isForbidden) {
-      // It's blacklisted or inside something blacklisted, and NOT clickable.
-      // Move to parent of the closest blacklisted ancestor.
-      let blacklistedAncestor = null;
-      for (const tag of BLACKLIST_TAGS) {
-        const found = curr.closest(tag);
-        if (found && (!blacklistedAncestor || blacklistedAncestor.contains(found))) {
-          blacklistedAncestor = found;
-        }
-      }
-      curr = blacklistedAncestor ? blacklistedAncestor.parentElement : curr.parentElement;
+    if (isBlacklisted) {
+      // It's a blacklisted tag and doesn't have its own click events.
+      // Move up to the parent to find a better target.
+      curr = curr.parentElement;
       continue;
     }
 
+    // If it's not blacklisted and doesn't have click events, we can stop here
+    // as it might be a generic container the user wants to click on (though maybe warned).
     return curr;
   }
   return curr;
