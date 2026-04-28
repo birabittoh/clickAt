@@ -1,7 +1,8 @@
 // Constants
 const BLACKLIST_TAGS = [
   'svg', 'path', 'rect', 'circle', 'ellipse', 'line', 'polyline', 'polygon',
-  'g', 'use', 'image', 'text', 'defs', 'symbol', 'clippath', 'mask', 'pattern'
+  'g', 'use', 'image', 'text', 'defs', 'symbol', 'clippath', 'mask', 'pattern',
+  'mat-icon',
 ];
 
 // Global state

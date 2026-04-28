@@ -5,7 +5,6 @@ import shutil
 import sys
 import zipfile
 import logging
-import subprocess
 
 # Configure logging
 logging.basicConfig(
@@ -59,18 +58,6 @@ def get_version(base_version):
         if github_ref_name.startswith('v'):
             return github_ref_name[1:]
         return github_ref_name
-
-    # Try to get short commit SHA
-    try:
-        short_sha = subprocess.check_output(
-            ['git', 'rev-parse', '--short', 'HEAD'],
-            stderr=subprocess.DEVNULL
-        ).decode('utf-8').strip()
-    except Exception:
-        short_sha = None
-
-    if short_sha:
-        return f"{base_version}.{short_sha}"
 
     return base_version
 
