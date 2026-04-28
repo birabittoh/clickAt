@@ -13,6 +13,7 @@ jobs:
     uses: ./.github/workflows/_build.yaml
     with:
       publish_mode: release
+      artifact_name: clickAt-${{ github.ref_name }}
 
   create-release:
     name: Create GitHub Release
@@ -25,8 +26,9 @@ jobs:
       - name: Download release artifacts
         uses: actions/download-artifact@v4
         with:
-          name: release-artifacts
+          pattern: clickAt-*
           path: release-assets
+          merge-multiple: true
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
